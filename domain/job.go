@@ -8,6 +8,10 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 type Job struct {
 	ID               string    `json:"job_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	OutputBucketPath string    `json:"output_bucket_path" valid:"notnull"`
@@ -19,11 +23,8 @@ type Job struct {
 	UpdatedAt        time.Time `json:"updated_at" valid:"-"`
 }
 
-func init() {
-	govalidator.SetFieldsRequiredByDefault(true)
-}
-
 func NewJob(output string, status string, video *Video) (*Job, error) {
+
 	job := Job{
 		OutputBucketPath: output,
 		Status:           status,
@@ -39,12 +40,15 @@ func NewJob(output string, status string, video *Video) (*Job, error) {
 	}
 
 	return &job, nil
+
 }
 
 func (job *Job) prepare() {
+
 	job.ID = uuid.NewV4().String()
 	job.CreatedAt = time.Now()
 	job.UpdatedAt = time.Now()
+
 }
 
 func (job *Job) Validate() error {

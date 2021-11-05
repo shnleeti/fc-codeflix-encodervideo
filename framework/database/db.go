@@ -42,6 +42,7 @@ func NewDbTest() *gorm.DB {
 }
 
 func (d *Database) Connect() (*gorm.DB, error) {
+
 	var err error
 
 	if d.Env != "test" {
@@ -64,4 +65,5 @@ func (d *Database) Connect() (*gorm.DB, error) {
 	}
 
 	return d.Db, nil
+
 }

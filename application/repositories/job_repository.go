@@ -9,16 +9,12 @@ import (
 
 type JobRepository interface {
 	Insert(job *domain.Job) (*domain.Job, error)
-	Find(job *domain.Job) (*domain.Job, error)
+	Find(id string) (*domain.Job, error)
 	Update(job *domain.Job) (*domain.Job, error)
 }
 
 type JobRepositoryDb struct {
 	Db *gorm.DB
-}
-
-func NewJobRepository(db *gorm.DB) *JobRepositoryDb {
-	return &JobRepositoryDb{Db: db}
 }
 
 func (repo JobRepositoryDb) Insert(job *domain.Job) (*domain.Job, error) {
@@ -29,13 +25,13 @@ func (repo JobRepositoryDb) Insert(job *domain.Job) (*domain.Job, error) {
 		return nil, err
 	}
 
-	return job, err
+	return job, nil
+
 }
 
 func (repo JobRepositoryDb) Find(id string) (*domain.Job, error) {
 
 	var job domain.Job
-
 	repo.Db.Preload("Video").First(&job, "id = ?", id)
 
 	if job.ID == "" {

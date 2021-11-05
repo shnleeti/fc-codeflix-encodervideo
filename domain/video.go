@@ -11,7 +11,7 @@ type Video struct {
 	ResourceID string    `json:"resource_id" valid:"notnull" gorm:"type:varchar(255)"`
 	FilePath   string    `json:"file_path" valid:"notnull" gorm:"type:varchar(255)"`
 	CreatedAt  time.Time `json:"-" valid:"-"`
-	Jobs       []*Job    `json:"-" valid:"-" gorm:"ForeignKey:VideoId"`
+	Jobs       []*Job    `json:"-" valid:"-" gorm:"ForeignKey:VideoID"`
 }
 
 func init() {
@@ -23,9 +23,10 @@ func NewVideo() *Video {
 }
 
 func (video *Video) Validate() error {
-	valid, err := govalidator.ValidateStruct(video)
 
-	if !valid {
+	_, err := govalidator.ValidateStruct(video)
+
+	if err != nil {
 		return err
 	}
 
