@@ -1,7 +1,6 @@
 package services_test
 
 import (
-	"fmt"
 	"log"
 	"testing"
 	"time"
@@ -49,7 +48,11 @@ func TestVideoServiceDownload(t *testing.T) {
 	require.Nil(t, err)
 
 	err = videoService.Fragment()
-	fmt.Println(video)
-	fmt.Println(err)
+	require.Nil(t, err)
+
+	err = videoService.Encode()
+	require.Nil(t, err)
+
+	err = videoService.Finish()
 	require.Nil(t, err)
 }

@@ -6,3 +6,4 @@ services:
     container_name: app
     volumes:
       - .:/go/src/
+    # command: export GOOGLE_APPLICATION_CREDENTIALS=/go/src/codeflix-encoder-bkt.json
