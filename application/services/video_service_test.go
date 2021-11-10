@@ -1,6 +1,7 @@
 package services_test
 
 import (
+	"fmt"
 	"log"
 	"testing"
 	"time"
@@ -27,7 +28,7 @@ func prepare() (*domain.Video, repositories.VideoRepositoryDb) {
 
 	video := domain.NewVideo()
 	video.ID = uuid.NewV4().String()
-	video.FilePath = "slee.mp4"
+	video.FilePath = "fofo.mp4"
 	video.CreatedAt = time.Now()
 
 	repo := repositories.VideoRepositoryDb{Db: db}
@@ -45,9 +46,10 @@ func TestVideoServiceDownload(t *testing.T) {
 	videoService.VideoRepository = repo
 
 	err := videoService.Download("codeflix-encoder-bkt")
-
 	require.Nil(t, err)
 
 	err = videoService.Fragment()
+	fmt.Println(video)
+	fmt.Println(err)
 	require.Nil(t, err)
 }
