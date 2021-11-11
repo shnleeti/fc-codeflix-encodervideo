@@ -15,3 +15,4 @@
 # vendor/
 
 codeflix-encoder-bkt.json
+.pgdata

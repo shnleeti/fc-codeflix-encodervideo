@@ -31,11 +31,15 @@ func (v *VideoService) Download(bucketName string) error {
 		return err
 	}
 
+	log.Println("BUCKETNAME: ", bucketName)
+	log.Println("FILEPATH: ", v.Video)
 	bkt := client.Bucket(bucketName)
 	obj := bkt.Object(v.Video.FilePath)
 
 	r, err := obj.NewReader(ctx)
 	if err != nil {
+		log.Println("r -> ", r)
+		log.Println("err ->", err)
 		return err
 	}
 	defer r.Close()
@@ -130,6 +134,15 @@ func (v *VideoService) Finish() error {
 
 	return nil
 
+}
+
+func (v *VideoService) InsertVideo() error {
+	_, err := v.VideoRepository.Insert(v.Video)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func printOutput(out []byte) {
